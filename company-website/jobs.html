@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>채용공고 | Company</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/jobsStyles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav container" aria-label="주요">
+      <a class="brand" href="index.html">Company</a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="navlinks">☰</button>
+      <ul id="navlinks" class="nav-links">
+        <li><a href="index.html">홈</a></li>
+        <li><a href="about.html">회사 소개</a></li>
+        <li><a href="jobs.html" aria-current="page">채용공고</a></li>
+        <li><a href="game.html">게임</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero / Banner -->
+    <section class="jobs-hero">
+      <div class="container hero__inner">
+        <div class="hero__text">
+          <h1>함께 만들 동료를 찾습니다</h1>
+          <p>문제를 단순하게, 임팩트는 크게.</p>
+        </div>
+        <picture class="hero__media">
+          <img src="https://picsum.photos/seed/jobs-hero/960/640" alt="채용 배너 이미지" />
+        </picture>
+      </div>
+    </section>
+
+    <!-- Job List -->
+    <section class="container section">
+      <h2 class="sr-only">채용공고 목록</h2>
+      <div class="job-list">
+        <article class="job-card">
+          <img class="job-card__img" src="https://picsum.photos/seed/frontend/640/360" alt="프론트엔드 역할을 상징하는 이미지" />
+          <div class="job-card__body">
+            <h3>프론트엔드 엔지니어 (React)</h3>
+            <p class="meta">정규직 · 서울/원격</p>
+            <details>
+              <summary>주요 업무 / 자격요건</summary>
+              <ul>
+                <li>React/TypeScript 기반 제품 개발</li>
+                <li>웹 성능 최적화, 접근성 개선</li>
+                <li>3년 이상 또는 그에 준하는 역량</li>
+              </ul>
+            </details>
+            <a class="btn" href="mailto:jobs@company.com?subject=%5B지원%5D%20FE%20Engineer">지원하기</a>
+          </div>
+        </article>
+
+        <article class="job-card">
+          <img class="job-card__img" src="https://picsum.photos/seed/backend/640/360" alt="백엔드 역할을 상징하는 이미지" />
+          <div class="job-card__body">
+            <h3>백엔드 엔지니어 (Node/Python)</h3>
+            <p class="meta">정규직 · 서울/원격</p>
+            <details>
+              <summary>주요 업무 / 자격요건</summary>
+              <ul>
+                <li>API/데이터 파이프라인 설계</li>
+                <li>클라우드 운영 경험(AWS/GCP)</li>
+                <li>3년 이상 또는 그에 준하는 역량</li>
+              </ul>
+            </details>
+            <a class="btn" href="mailto:jobs@company.com?subject=%5B지원%5D%20BE%20Engineer">지원하기</a>
+          </div>
+        </article>
+
+        <article class="job-card">
+          <img class="job-card__img" src="https://picsum.photos/seed/designer/640/360" alt="프로덕트 디자인을 상징하는 이미지" />
+          <div class="job-card__body">
+            <h3>프로덕트 디자이너</h3>
+            <p class="meta">계약/정규 · 서울/원격</p>
+            <details>
+              <summary>주요 업무 / 자격요건</summary>
+              <ul>
+                <li>사용자 흐름·UI 시스템 설계</li>
+                <li>디자인 시스템 운영</li>
+                <li>포트폴리오 제출 필수</li>
+              </ul>
+            </details>
+            <a class="btn" href="mailto:jobs@company.com?subject=%5B지원%5D%20Product%20Designer">지원하기</a>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">© Company. Join us.</div>
+  </footer>
+
+  <script>
+    const btn = document.querySelector('.nav-toggle');
+    const links = document.getElementById('navlinks');
+    btn?.addEventListener('click', () => {
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+      links.classList.toggle('open');
+    });
+  </script>
+</body>
+</html>
