@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>간단한 클릭 게임</title>
+  <link rel="stylesheet" href="gameStyles.css">
+</head>
+<body>
+  <main class="wrap">
+    <h1 class="title">★ 클릭 서바이벌 ★</h1>
+
+    <section class="controls">
+      <label for="difficulty">난이도:</label>
+      <select id="difficulty">
+        <option value="easy">이지</option>
+        <option value="normal" selected>노말</option>
+        <option value="hard">하드</option>
+      </select>
+
+      <button id="startBtn" class="btn">시작</button>
+      <button id="resetBtn" class="btn ghost">리셋</button>
+    </section>
+
+    <section class="status">
+      <div>남은시간: <span id="time">30</span>s</div>
+      <div>점수: <span id="score">0</span></div>
+      <div>하이스코어: <span id="highscore">0</span></div>
+    </section>
+
+    <footer class="footer">
+      클릭해서 나타나는 타겟을 최대한 많이 잡으세요! 난이도는 스폰 속도와 지속시간에 영향을 줍니다.
+    </footer>
+  </main>
+
+  <script>
+  (function(){
+    const startBtn = document.getElementById('startBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const difficultySel = document.getElementById('difficulty');
+    const timeEl = document.getElementById('time');
+    const scoreEl = document.getElementById('score');
+    const highScoreEl = document.getElementById('highscore');
+
+    let timer = 30;
+    let timeLeft = timer;
+    let score = 0;
+    let running = false;
+    let spawnTimer = null;
+    let countdownTimer = null;
+    let activeTargets = new Set();
+
+    const difficultyParams = {
+      easy:   { spawnInterval: 900, life: 1400, totalTime: 40 },
+      normal: { spawnInterval: 650, life: 1100, totalTime: 30 },
+      hard:   { spawnInterval: 420, life: 800,  totalTime: 20 }
+    };
+
+    function highScoreKey(diff){ return `simpleGameHighScore_${diff}`; }
+
+    function loadHighScore(){
+      const diff = difficultySel.value;
+      const val = localStorage.getItem(highScoreKey(diff));
+      highScoreEl.textContent = val ? val : 0;
+    }
+
+    function saveHighScoreIfNeeded(){
+      const diff = difficultySel.value;
+      const key = highScoreKey(diff);
+      const prev = Number(localStorage.getItem(key) || 0);
+      if(score > prev) localStorage.setItem(key, score);
+      loadHighScore();
+    }
+
+    function setStatus(){
+      scoreEl.textContent = score;
+      timeEl.textContent = timeLeft;
+    }
+
+    function randomBetween(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+
+    function spawnTarget(){
+      if(!running) return;
+      const t = document.createElement('button');
+      t.className = 'target';
+      t.setAttribute('aria-label','타겟');
+      const size = randomBetween(36,72);
+      t.style.width = t.style.height = size + 'px';
+
+      // 화면 전체에서 생성
+      const x = randomBetween(0, window.innerWidth - size);
+      const y = randomBetween(0, window.innerHeight - size);
+      t.style.left = x + 'px';
+      t.style.top = y + 'px';
+      t.style.position = 'fixed';
+
+      function onClickTarget(e){
+        e.stopPropagation();
+        t.classList.add('popped');
+        score += Math.ceil(1 + size/40);
+        setStatus();
+        removeTarget(t);
+      }
+
+      t.addEventListener('click', onClickTarget);
+      document.body.appendChild(t);
+      activeTargets.add(t);
+
+      const life = difficultyParams[difficultySel.value].life;
+      const timeoutId = setTimeout(()=>{
+        if(activeTargets.has(t)){
+          t.classList.add('miss');
+          removeTarget(t);
+        }
+      }, life);
+
+      t.cleanup = ()=>{ clearTimeout(timeoutId); t.removeEventListener('click', onClickTarget); };
+    }
+
+    function removeTarget(t){
+      if(!t) return;
+      t.cleanup && t.cleanup();
+      activeTargets.delete(t);
+      t.style.pointerEvents = 'none';
+      setTimeout(()=>{ if(t.parentNode) t.parentNode.removeChild(t); }, 220);
+    }
+
+    function startGame(){
+      if(running) return;
+      running = true;
+      score = 0;
+      const diff = difficultySel.value;
+      timer = difficultyParams[diff].totalTime;
+      timeLeft = timer;
+      setStatus();
+      loadHighScore();
+
+      spawnTimer = setInterval(spawnTarget, difficultyParams[diff].spawnInterval);
+      spawnTarget();
+
+      countdownTimer = setInterval(()=>{
+        timeLeft -= 1;
+        setStatus();
+        if(timeLeft <= 0){
+          endGame();
+        }
+      }, 1000);
+
+      startBtn.textContent = '진행중...';
+      startBtn.disabled = true;
+    }
+
+    function endGame(){
+      running = false;
+      clearInterval(spawnTimer); spawnTimer = null;
+      clearInterval(countdownTimer); countdownTimer = null;
+      activeTargets.forEach(t=> removeTarget(t));
+      activeTargets.clear();
+      saveHighScoreIfNeeded();
+      alert(`게임 종료! 점수: ${score}`);
+      startBtn.textContent = '시작';
+      startBtn.disabled = false;
+    }
+
+    function resetScores(){
+      if(confirm('이 난이도의 하이스코어를 초기화할까요?')){
+        const key = highScoreKey(difficultySel.value);
+        localStorage.removeItem(key);
+        loadHighScore();
+      }
+    }
+
+    startBtn.addEventListener('click', startGame);
+    resetBtn.addEventListener('click', resetScores);
+    difficultySel.addEventListener('change', ()=>{
+      loadHighScore();
+    });
+
+    window.addEventListener('load', ()=>{
+      loadHighScore();
+      setStatus();
+    });
+
+  })();
+  </script>
+</body>
+</html>
