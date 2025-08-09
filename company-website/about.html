@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>회사 소개 | Company</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/aboutStyles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav container" aria-label="주요">
+      <a class="brand" href="index.html">Company</a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="navlinks">☰</button>
+      <ul id="navlinks" class="nav-links">
+        <li><a href="index.html">홈</a></li>
+        <li><a href="about.html" aria-current="page">회사 소개</a></li>
+        <li><a href="jobs.html">채용공고</a></li>
+        <li><a href="game.html">게임</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container hero__inner">
+        <div class="hero__text">
+          <h1>우리는 문제를 심플하게 풉니다</h1>
+          <p>고객의 시간을 아껴주는 제품을 만들고, 팀의 성장을 즐깁니다.</p>
+        </div>
+        <picture class="hero__media">
+          <img src="https://picsum.photos/seed/company-hero/960/640" alt="우리 회사 팀워크를 상징하는 이미지" />
+        </picture>
+      </div>
+    </section>
+
+    <!-- Mission / Vision -->
+    <section class="container section">
+      <div class="grid-2">
+        <article class="card">
+          <img class="card__img" src="https://picsum.photos/seed/mission/600/400" alt="미션을 상징하는 이미지" />
+          <div class="card__body">
+            <h2>미션</h2>
+            <p>사람과 비즈니스의 복잡함을 줄여 더 큰 기회를 열어줍니다.</p>
+          </div>
+        </article>
+        <article class="card">
+          <img class="card__img" src="https://picsum.photos/seed/vision/600/400" alt="비전을 상징하는 이미지" />
+          <div class="card__body">
+            <h2>비전</h2>
+            <p>전 세계 어디서나 신뢰받는 인프라가 되는 것.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Values -->
+    <section class="container section">
+      <h2>핵심 가치</h2>
+      <ul class="values">
+        <li><strong>정직</strong> — 데이터로 말합니다.</li>
+        <li><strong>집중</strong> — 중요한 것에 리소스를 씁니다.</li>
+        <li><strong>성장</strong> — 빠르게 만들고 학습합니다.</li>
+      </ul>
+    </section>
+
+    <!-- Team -->
+    <section class="container section">
+      <h2>팀</h2>
+      <div class="grid-3">
+        <figure class="profile">
+          <img src="https://picsum.photos/seed/member1/400/400" alt="팀원 A 프로필 사진" />
+          <figcaption>팀원 A · 제품</figcaption>
+        </figure>
+        <figure class="profile">
+          <img src="https://picsum.photos/seed/member2/400/400" alt="팀원 B 프로필 사진" />
+          <figcaption>팀원 B · 엔지니어링</figcaption>
+        </figure>
+        <figure class="profile">
+          <img src="https://picsum.photos/seed/member3/400/400" alt="팀원 C 프로필 사진" />
+          <figcaption>팀원 C · 디자인</figcaption>
+        </figure>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">© Company. All rights reserved.</div>
+  </footer>
+
+  <script>
+    // 간단한 내비 토글 (의존성 없음)
+    const btn = document.querySelector('.nav-toggle');
+    const links = document.getElementById('navlinks');
+    btn?.addEventListener('click', () => {
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+      links.classList.toggle('open');
+    });
+  </script>
+</body>
+</html>
