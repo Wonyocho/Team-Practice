@@ -1,0 +1,11 @@
+.hero { padding: 36px 0 18px; }
+.hero__img { width: 100%; height: auto; border-radius: var(--radius); margin-top: 10px; }
+
+.values { margin: 10px 0 20px 18px; color: var(--muted); }
+
+.profile { text-align: center; }
+.profile img { width: 100%; height: auto; border-radius: var(--radius); }
+.profile figcaption { margin-top: 8px; color: var(--muted); font-size: 14px; }
+
+/* 카드 내부 이미지도 깔끔하게 */
+.card img { width: 100%; height: auto; border-radius: 8px; margin-top: 8px; }
