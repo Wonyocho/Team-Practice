@@ -1,0 +1,6 @@
+.hero__img { width: 100%; height: auto; border-radius: var(--radius); margin-top: 10px; }
+.card details { margin: 8px 0; }
+.card details summary { cursor: pointer; font-weight: 600; }
+.card > .btn { margin-top: 8px; }
+
+.table .btn { padding: 6px 10px; font-weight: 600; }
